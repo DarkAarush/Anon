@@ -4,7 +4,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from LoverMusic import YouTube, app
-from LoverMusic.core.call import Aviax
+from LoverMusic.core.call import Anon
 from LoverMusic.misc import SUDOERS, db
 from LoverMusic.utils.database import (
     get_active_chats,
