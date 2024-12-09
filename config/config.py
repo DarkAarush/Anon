@@ -1,5 +1,4 @@
 import re
-import sys
 from os import getenv
 
 from dotenv import load_dotenv
@@ -7,250 +6,101 @@ from pyrogram import filters
 
 load_dotenv()
 
+# Get this value from my.telegram.org/apps
 API_ID = int(getenv("API_ID", "18499702"))
-API_HASH = getenv("API_HASH", "d4dff36c2c1ebf6f8f6bc044b5bce9c9")
+API_HASH = getenv("API_HASH")
 
-BOT_TOKEN = getenv("BOT_TOKEN", "5983601762:AAHpwkJsrBwbGR4lNClYTvlwesbdtJaUvqo")
+# Get your token from @BotFather on Telegram.
+BOT_TOKEN = getenv("BOT_TOKEN")
 
-MONGO_DB_URI = getenv("MONGO_DB_URI", "mongodb+srv://EXONTESTMONGO:EXONTESTMONGO@cluster0.bviw7ic.mongodb.net/?retryWrites=true&w=majority")
+# Get your mongo url from cloud.mongodb.com
+MONGO_DB_URI = getenv("MONGO_DB_URI", None)
+
+DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 60))
+
+# Chat id of a group for logging bot's activities
 LOG_GROUP_ID = int(getenv("LOG_GROUP_ID", "-1001902619247"))
-MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME", "music")
 
-OWNER_ID = list(
-    map(int, getenv("OWNER_ID", "7758957839").split()))
-SUPPORT_CHANNEL = getenv(
-    "SUPPORT_CHANNEL", "https://t.me/LOVER_MUSIC_SUPPORT")
-SUPPORT_GROUP = getenv(
-    "SUPPORT_GROUP", "https://t.me/LOVER_MUSIC_SUPPORT_Group")
+# Get this value from @MissRose_Bot on Telegram by /id
+OWNER_ID = int(getenv("OWNER_ID", "5050578106"))
 
-DURATION_LIMIT_MIN = int(
-    getenv("DURATION_LIMIT", "59006")
-)
-
-SONG_DOWNLOAD_DURATION = int(
-    getenv("SONG_DOWNLOAD_DURATION_LIMIT", "10998")
-)
-
-HEROKU_API_KEY = getenv("HEROKU_API_KEY")
-
+## Fill these variables if you're deploying on heroku.
+# Your heroku app name
 HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
+# Get it from http://dashboard.heroku.com/account
+HEROKU_API_KEY = getenv("HEROKU_API_KEY")
 
 UPSTREAM_REPO = getenv(
     "UPSTREAM_REPO",
-    "https://github.com/Lover-Music/Zzzz",
+    "https://www.jiosaavn.com/",
 )
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "master")
+GIT_TOKEN = getenv(
+    "GIT_TOKEN", None
+)  # Fill this variable if your upstream repository is private
 
-GIT_TOKEN = getenv("GIT_TOKEN", None)
+SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://www.jiosaavn.com/")
+SUPPORT_GROUP = getenv("SUPPORT_GROUP", "https://www.jiosaavn.com/")
 
-AUTO_LEAVING_ASSISTANT = getenv("AUTO_LEAVING_ASSISTANT", "False")
+# Set this to True if you want the assistant to automatically leave chats after an interval
+AUTO_LEAVING_ASSISTANT = bool(getenv("AUTO_LEAVING_ASSISTANT", False))
 
-AUTO_LEAVE_ASSISTANT_TIME = int(
-    getenv("ASSISTANT_LEAVE_TIME", "5400")
-)
+# make your bots privacy from telegra.ph and put your url here 
+PRIVACY_LINK = getenv("PRIVACY_LINK", "https://telegra.ph/Privacy-Policy-for-AviaxMusic-08-14")
 
-AUTO_DOWNLOADS_CLEAR = getenv("AUTO_DOWNLOADS_CLEAR", "True")
 
-PRIVATE_BOT_MODE = getenv("PRIVATE_BOT_MODE", "False")
-
-YOUTUBE_DOWNLOAD_EDIT_SLEEP = int(getenv("YOUTUBE_EDIT_SLEEP", "5"))
-TELEGRAM_DOWNLOAD_EDIT_SLEEP = int(getenv("TELEGRAM_EDIT_SLEEP", "6"))
-
-GITHUB_REPO = getenv("GITHUB_REPO", "https://t.me/shubhamsah1")
-
+# Get this credentials from https://developer.spotify.com/dashboard
 SPOTIFY_CLIENT_ID = getenv("SPOTIFY_CLIENT_ID", None)
 SPOTIFY_CLIENT_SECRET = getenv("SPOTIFY_CLIENT_SECRET", None)
 
-VIDEO_STREAM_LIMIT = int(getenv("VIDEO_STREAM_LIMIT", "50"))
-SERVER_PLAYLIST_LIMIT = int(getenv("SERVER_PLAYLIST_LIMIT", "50"))
-PLAYLIST_FETCH_LIMIT = int(getenv("PLAYLIST_FETCH_LIMIT", "50"))
 
-CLEANMODE_DELETE_MINS = int(
-    getenv("CLEANMODE_MINS", "5")
-)
-
-TG_AUDIO_FILESIZE_LIMIT = int(
-    getenv("TG_AUDIO_FILESIZE_LIMIT", "104857600")
-)
-TG_VIDEO_FILESIZE_LIMIT = int(
-    getenv("TG_VIDEO_FILESIZE_LIMIT", "2073741824")
-)
+# Maximum limit for fetching playlist's track from youtube, spotify, apple links.
+PLAYLIST_FETCH_LIMIT = int(getenv("PLAYLIST_FETCH_LIMIT", 25))
 
 
-STRING1 = getenv("STRING_SESSION", "BQEaSHYAOrdZNEA5WUrFSccuHdCe08bggKSWPRt2dGjmAgroy3-FpokdUUfTk3fyT57-bRR0hOkirx8TVAIyXnpJnkqRy7GBdgpbHg40gqRE3SzLa4xucwAFvIwv9BarPchskZ0-fGiY7jJD8O94r4tjmC5BkpfA5Ap8kAH7kOfHnHWJRNV1OiEBZZCKbaHcXBAOj-jI6LPbdzCPX1ZFLN4Pp9HPVwMX6t8hF-DrGnHQI2VE0U8D0Bt_YE_yQWycobVJIsbhBMcHIjXaJKQXYzMJTH5fDupVdFBAP9F7qBRH7mvBU_2SDXENDUSFPN2wH6o4W1YxsYla6C-4fdNEAJbC3Ap3bwAAAAHOeE0PAA")
+# Telegram audio and video file size limit (in bytes)
+TG_AUDIO_FILESIZE_LIMIT = int(getenv("TG_AUDIO_FILESIZE_LIMIT", 104857600))
+TG_VIDEO_FILESIZE_LIMIT = int(getenv("TG_VIDEO_FILESIZE_LIMIT", 2145386496))
+# Checkout https://www.gbmb.org/mb-to-bytes for converting mb to bytes
+
+
+# Get your pyrogram v2 session from Replit
+STRING1 = getenv("STRING_SESSION", None)
 STRING2 = getenv("STRING_SESSION2", None)
 STRING3 = getenv("STRING_SESSION3", None)
 STRING4 = getenv("STRING_SESSION4", None)
 STRING5 = getenv("STRING_SESSION5", None)
 
+
 BANNED_USERS = filters.user()
-YTDOWNLOADER = 1
-LOG = 2
-LOG_FILE_NAME = "viruslogs.txt"
 adminlist = {}
 lyrical = {}
-chatstats = {}
-userstats = {}
-clean = {}
-
+votemode = {}
 autoclean = []
+confirmer = {}
 
-START_IMG_URL = getenv("START_IMG_URL", None)
 
+START_IMG_URL = getenv(
+    "START_IMG_URL", "https://envs.sh/CwU.jpg"
+)
 PING_IMG_URL = getenv(
-    "PING_IMG_URL",
-    "https://telegra.ph/file/a62273c43c95ad07ada61.jpg",
+    "PING_IMG_URL", "https://envs.sh/CLg.jpeg"
 )
-
-PLAYLIST_IMG_URL = getenv(
-    "PLAYLIST_IMG_URL",
-    "assets/Playlist.jpeg",
-)
-
-GLOBAL_IMG_URL = getenv(
-    "GLOBAL_IMG_URL",
-    "https://telegra.ph/file/a62273c43c95ad07ada61.jpg",
-)
-
-STATS_IMG_URL = getenv(
-    "STATS_IMG_URL",
-    "https://telegra.ph/file/a62273c43c95ad07ada61.jpg",
-)
-
-TELEGRAM_AUDIO_URL = getenv(
-    "TELEGRAM_AUDIO_URL",
-    "https://telegra.ph/file/a62273c43c95ad07ada61.jpg",
-)
-
-TELEGRAM_VIDEO_URL = getenv(
-    "TELEGRAM_VIDEO_URL",
-    "https://telegra.ph/file/a62273c43c95ad07ada61.jpg",
-)
-
-STREAM_IMG_URL = getenv(
-    "STREAM_IMG_URL",
-    "assets/Stream.jpeg",
-)
-
-SOUNCLOUD_IMG_URL = getenv(
-    "SOUNCLOUD_IMG_URL",
-    "assets/Soundcloud.jpeg",
-)
-
-YOUTUBE_IMG_URL = getenv(
-    "YOUTUBE_IMG_URL",
-    "assets/Youtube.jpeg",
-)
-
-SPOTIFY_ARTIST_IMG_URL = getenv(
-    "SPOTIFY_ARTIST_IMG_URL",
-    "assets/SpotifyArtist.jpeg",
-)
-
-SPOTIFY_ALBUM_IMG_URL = getenv(
-    "SPOTIFY_ALBUM_IMG_URL",
-    "assets/SpotifyAlbum.jpeg",
-)
-
-SPOTIFY_PLAYLIST_IMG_URL = getenv(
-    "SPOTIFY_PLAYLIST_IMG_URL",
-    "assets/SpotifyPlaylist.jpeg",
-)
+PLAYLIST_IMG_URL = "https://graph.org//file/3dfcffd0c218ead96b102.png"
+STATS_IMG_URL = "https://graph.org//file/99a8a9c13bb01f9ac7d98.png"
+TELEGRAM_AUDIO_URL = "https://graph.org//file/2f7debf856695e0ef0607.png"
+TELEGRAM_VIDEO_URL = "https://graph.org//file/2f7debf856695e0ef0607.png"
+STREAM_IMG_URL = "https://te.legra.ph/file/bd995b032b6bd263e2cc9.jpg"
+SOUNCLOUD_IMG_URL = "https://te.legra.ph/file/bb0ff85f2dd44070ea519.jpg"
+YOUTUBE_IMG_URL = "https://graph.org//file/2f7debf856695e0ef0607.png"
+SPOTIFY_ARTIST_IMG_URL = "https://te.legra.ph/file/37d163a2f75e0d3b403d6.jpg"
+SPOTIFY_ALBUM_IMG_URL = "https://te.legra.ph/file/b35fd1dfca73b950b1b05.jpg"
+SPOTIFY_PLAYLIST_IMG_URL = "https://te.legra.ph/file/95b3ca7993bbfaf993dcb.jpg"
 
 
 def time_to_seconds(time):
     stringt = str(time)
-    return sum(
-        int(x) * 60**i
-        for i, x in enumerate(reversed(stringt.split(":")))
-    )
+    return sum(int(x) * 800**i for i, x in enumerate(reversed(stringt.split(":"))))
 
 
 DURATION_LIMIT = int(time_to_seconds(f"{DURATION_LIMIT_MIN}:00"))
-SONG_DOWNLOAD_DURATION_LIMIT = int(
-    time_to_seconds(f"{SONG_DOWNLOAD_DURATION}:00")
-)
-
-if UPSTREAM_REPO:
-    if not re.match("(?:http|https)://", UPSTREAM_REPO):
-        print(
-            "[ERROR] - Your UPSTREAM_REPO url is wrong. Please ensure that it starts with https://"
-        )
-        sys.exit()
-
-if PING_IMG_URL:
-    if PING_IMG_URL != "assets/Ping.jpeg":
-        if not re.match("(?:http|https)://", PING_IMG_URL):
-            print(
-                "[ERROR] - Your PING_IMG_URL url is wrong. Please ensure that it starts with https://"
-            )
-            sys.exit()
-
-if PLAYLIST_IMG_URL:
-    if PLAYLIST_IMG_URL != "assets/Playlist.jpeg":
-        if not re.match("(?:http|https)://", PLAYLIST_IMG_URL):
-            print(
-                "[ERROR] - Your PLAYLIST_IMG_URL url is wrong. Please ensure that it starts with https://"
-            )
-            sys.exit()
-
-if GLOBAL_IMG_URL:
-    if GLOBAL_IMG_URL != "https://telegra.ph/file/a62273c43c95ad07ada61.jpg":
-        if not re.match("(?:http|https)://", GLOBAL_IMG_URL):
-            print(
-                "[ERROR] - Your GLOBAL_IMG_URL url is wrong. Please ensure that it starts with https://"
-            )
-            sys.exit()
-
-
-if STATS_IMG_URL:
-    if STATS_IMG_URL != "https://telegra.ph/file/a62273c43c95ad07ada61.jpg":
-        if not re.match("(?:http|https)://", STATS_IMG_URL):
-            print(
-                "[ERROR] - Your STATS_IMG_URL url is wrong. Please ensure that it starts with https://"
-            )
-            sys.exit()
-
-
-if TELEGRAM_AUDIO_URL:
-    if TELEGRAM_AUDIO_URL != "https://te.legra.ph/file/354711e8d255477308a2d.jpg":
-        if not re.match("(?:http|https)://", TELEGRAM_AUDIO_URL):
-            print(
-                "[ERROR] - Your TELEGRAM_AUDIO_URL url is wrong. Please ensure that it starts with https://"
-            )
-            sys.exit()
-
-
-if STREAM_IMG_URL:
-    if STREAM_IMG_URL != "assets/Stream.jpeg":
-        if not re.match("(?:http|https)://", STREAM_IMG_URL):
-            print(
-                "[ERROR] - Your STREAM_IMG_URL url is wrong. Please ensure that it starts with https://"
-            )
-            sys.exit()
-
-
-if SOUNCLOUD_IMG_URL:
-    if SOUNCLOUD_IMG_URL != "assets/Soundcloud.jpeg":
-        if not re.match("(?:http|https)://", SOUNCLOUD_IMG_URL):
-            print(
-                "[ERROR] - Your SOUNCLOUD_IMG_URL url is wrong. Please ensure that it starts with https://"
-            )
-            sys.exit()
-
-if YOUTUBE_IMG_URL:
-    if YOUTUBE_IMG_URL != "assets/Youtube.jpeg":
-        if not re.match("(?:http|https)://", YOUTUBE_IMG_URL):
-            print(
-                "[ERROR] - Your YOUTUBE_IMG_URL url is wrong. Please ensure that it starts with https://"
-            )
-            sys.exit()
-
-
-if TELEGRAM_VIDEO_URL:
-    if TELEGRAM_VIDEO_URL != "https://telegra.ph/file/a62273c43c95ad07ada61.jpg":
-        if not re.match("(?:http|https)://", TELEGRAM_VIDEO_URL):
-            print(
-                "[ERROR] - Your TELEGRAM_VIDEO_URL url is wrong. Please ensure that it starts with https://"
-            )
-            sys.exit()
